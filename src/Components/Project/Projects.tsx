@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback} from 'react';
 import dynamic from 'next/dynamic';
 import { ProjectGroup } from '@/Components/ProjectGroup';
 import { CategoryButtons } from '@/Components/Project/CategoryButtons';

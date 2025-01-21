@@ -5,6 +5,10 @@ import Image from 'next/image';
 import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
 import { PortableText } from '@portabletext/react';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 interface Thumbnail {
   src: string;
@@ -30,7 +34,7 @@ interface CardInfoData {
       url: string;
     }
   }>;
-  description: any[]; 
+  description: []; 
   backgroundImage?: {
     asset: {
       url: string;
@@ -44,7 +48,7 @@ interface CardInfoData {
 }
 
 interface CardInformationProps {
-  selectedButton?: string | null;
+  selectedButton: string | null;
   selectedCard: number; 
   onClose: () => void;
 }
@@ -56,7 +60,6 @@ const RichTextComponents = {
 };
 
 const CardInformation: React.FC<CardInformationProps> = ({ 
-  selectedButton, 
   selectedCard, 
   onClose 
 }) => {
@@ -101,7 +104,7 @@ const CardInformation: React.FC<CardInformationProps> = ({
           setCardInfo(data);
           
           // Preparar thumbnails
-          const thumbs: Thumbnail[] = data.miniatures.map((Image: any, index: number) => ({
+          const thumbs: Thumbnail[] = data.miniatures.map((Image: SanityImageSource, index: number) => ({
             src: urlFor(Image).width(172).height(103).url(),
             alt: `Thumbnail ${index + 1}`,
             mainImage: urlFor(Image).url()

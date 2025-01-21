@@ -6,10 +6,11 @@ import { PortableText } from '@portabletext/react';
 import { useState, useEffect } from 'react';
 import imageUrlBuilder from '@sanity/image-url';
 import { client } from '@/sanity/lib/client';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { groq } from 'next-sanity';
 
 const builder = imageUrlBuilder(client);
-const urlFor = (source: any) => builder.image(source)?.url() || '';
+const urlFor = (source: SanityImageSource) => builder.image(source)?.url() || '';
 
 // Colores principales de la marca
 const BRAND_COLORS = {
@@ -18,7 +19,7 @@ const BRAND_COLORS = {
 };
 
 type PlatformCard = {
-  icon: any;
+  icon: SanityImageSource;
   title: string;
   description: string;
   link?: string;
@@ -30,8 +31,8 @@ type PlatformCard = {
 type CmsPlatformData = {
   superheading?: string;
   headline: string;
-  description: any;
-  featuredImage?: any;
+  description: [];
+  featuredImage?: SanityImageSource;
   platformCards: PlatformCard[];
 };
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { FaArrowRight } from "react-icons/fa";
-import ActionsButtons from "./ActionsButtons";
 import { fonts } from "./Fonts";
 import SlidersPatheners from "./SlidersPatheners";
 

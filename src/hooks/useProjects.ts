@@ -1,7 +1,23 @@
-// hooks/useProjects.ts
 import { useState, useEffect } from 'react';
 import { client } from '@/sanity/lib/client';
 import { Category, ProjectCard } from '@/Components/types/project';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+// Define an interface that matches the ProjectCard type more closely
+interface FetchedProject {
+  id: number;
+  title: string;
+  imageUrl?: string;
+  logoUrl?: string;
+  altText: string;
+  backgroundImage?: any;
+  projectDetails?: {
+    projectType: string;
+    client?: string;
+    technologies?: string[];
+  };
+}
 
 const predefinedCategories = [
   { _id: 'all', title: 'All', icon: 'FaList', projectType: 'all' },
@@ -32,12 +48,12 @@ export const useProjects = () => {
           }
         }`;
 
-        const fetchedProjects = await client.fetch(projectsQuery);
+        const fetchedProjects: FetchedProject[] = await client.fetch(projectsQuery);
 
         // Filtrar categorías que tienen proyectos asignados, excluyendo la categoría "All"
-        const categoriesInUse: Category[] = predefinedCategories.filter((category: Category) =>
+        const categoriesInUse: Category[] = predefinedCategories.filter(category =>
           category.projectType !== 'all' &&
-          fetchedProjects.some((project: ProjectCard) => 
+          fetchedProjects.some(project => 
             project.projectDetails?.projectType === category.projectType
           )
         );
@@ -45,16 +61,24 @@ export const useProjects = () => {
         // Agregar la categoría "All" al principio del array de categorías
         const allCategories = [predefinedCategories[0], ...categoriesInUse];
 
-        setCategories(allCategories);
-        setProjects(fetchedProjects.map((project: any) => ({
+        // Ensure projectDetails has a projectType
+        const processedProjects: ProjectCard[] = fetchedProjects.map(project => ({
           ...project,
+          projectDetails: {
+            projectType: project.projectDetails?.projectType || '',
+            client: project.projectDetails?.client,
+            technologies: project.projectDetails?.technologies
+          },
           category: {
             _id: project.projectDetails?.projectType || '',
             title: predefinedCategories.find(
               cat => cat.projectType === project.projectDetails?.projectType
             )?.title || ''
           }
-        })));
+        }));
+
+        setCategories(allCategories);
+        setProjects(processedProjects);
       } catch (error) {
         console.error('Error fetching projects:', error);
         setCategories([]);

@@ -3,12 +3,18 @@
 import { useEffect, useState } from 'react'
 import Image from "next/image"
 import Link from "next/link"
-import { PortableText } from '@portabletext/react'
+import { 
+  PortableText, 
+  PortableTextReactComponents, 
+  PortableTextMarkComponentProps 
+} from '@portabletext/react'
 import { FaGreaterThan, FaPlay } from "react-icons/fa"
 import { fonts } from "./Fonts"
 import ReviewsCostumers from "./ReviewsCostumers"
 import { client } from '@/sanity/lib/client'
 import imageUrlBuilder from '@sanity/image-url'
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 const builder = imageUrlBuilder(client)
 const BRAND_COLORS = {
@@ -32,7 +38,7 @@ interface InfoHeroData {
   headline: string;
   subheading?: string;
   informationItems: string[];
-  description: any[]; 
+  description: []; 
   links: { label: string; url: string }[];
   videoSectionTitle?: string;
   image?: { 
@@ -53,16 +59,23 @@ interface InfoHeroData {
   };
 }
 
+// Define a more specific type for link mark props
+type LinkMarkProps = PortableTextMarkComponentProps<{
+  _type: 'link';
+  href: string;
+}>
+
 const InformationHero = () => {
   const [infoHeroData, setInfoHeroData] = useState<InfoHeroData | null>(null)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [videoUrl, setVideoUrl] = useState<string | null>(null)
 
-  const customComponents = {
+  // Type-safe custom components for PortableText
+  const customComponents: Partial<PortableTextReactComponents> = {
     marks: {
-      link: ({children, value}: any) => (
+      link: ({ children, value }: LinkMarkProps) => (
         <Link 
-          href={value.href} 
+          href={value?.href || '#'} 
           className={`text-[${BRAND_COLORS.green}] underline hover:text-[${BRAND_COLORS.red}] transition-colors duration-300`}
         >
           {children}

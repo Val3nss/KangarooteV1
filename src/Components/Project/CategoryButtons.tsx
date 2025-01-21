@@ -4,7 +4,7 @@ import { FaChevronDown } from 'react-icons/fa';
 import { Category } from '@/Components/types/project';
 
 interface CategoryButtonsProps {
-  categories: Category[];
+  categories: Category[]; // Define la estructura de Category en types/project
   selectedCategory: string | null;
   onSelect: (id: string) => void;
 }
@@ -16,13 +16,14 @@ export const CategoryButtons: React.FC<CategoryButtonsProps> = React.memo(({
 }) => (
   <div className="flex flex-wrap justify-center gap-4 mb-12">
     {categories.map((category) => {
-      const IconComponent = category.icon ? (Icons as any)[category.icon] : null;
-      
+      // Asegúrate de que la propiedad "icon" de category sea válida antes de usarla.
+      const IconComponent = category.icon && (Icons as Record<string, React.ElementType>)[category.icon];
+
       return (
         <button
           key={category._id}
           onClick={() => onSelect(category._id)}
-          className={`
+          className={` 
             flex items-center gap-2 px-4 py-2 rounded-full 
             transition-all duration-300
             ${selectedCategory === category._id 
@@ -40,3 +41,5 @@ export const CategoryButtons: React.FC<CategoryButtonsProps> = React.memo(({
     })}
   </div>
 ));
+
+CategoryButtons.displayName = 'CategoryButtons'; 

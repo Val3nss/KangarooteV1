@@ -1,5 +1,7 @@
 import { defineType, defineField } from 'sanity'
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export default {
     name: 'cardInfo',
     title: 'Project Card',

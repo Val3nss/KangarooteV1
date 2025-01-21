@@ -75,3 +75,5 @@ export const ProjectGroup: React.FC<ProjectGroupProps> = React.memo(({ projects,
       ))}
   </div>
 ));
+
+ProjectGroup.displayName = 'ProjectGroup';
