@@ -14,7 +14,6 @@ export default {
         ofcgreen: "#53BD47",
         ofcred: "#FF0000",
       },
-      hostname: "www.digitalsilk.com",
     },
   },
   plugins: [],
