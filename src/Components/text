@@ -1,0 +1,10 @@
+  {/* Right Image Section */}
+        <div className="flex-1 flex justify-center items-center mt-6 sm:mt-0">
+          <Image
+            src="/LogosSlider/Webdesingtrophy.webp"
+            alt="Digital Marketing and Web Design Award"
+            width={500}
+            height={500}
+            className="object-contain rounded-lg shadow-lg transition-transform transform hover:scale-105"
+          />
+        </div>
